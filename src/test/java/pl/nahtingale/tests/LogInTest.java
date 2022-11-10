@@ -5,14 +5,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import pl.nahtingale.pages.HomePage;
 
-public class RegisterTest extends BaseTest {
-    @Test
-    public void registerUserTest() {
-        int random = (int) (Math.random() * 1000);
+public class LogInTest extends BaseTest {
 
+    @Test
+    public void LogInTest() {
         WebElement dashboardLink = new HomePage(driver)
                 .openMyAccountPage()
-                .registerUserValidData("test" + random + "@test.pl", "test@test.pl")
+                .logInValidData("test1@test.pl", "test@test.pl")
                 .getDashboardLink();
 
 
@@ -21,14 +20,14 @@ public class RegisterTest extends BaseTest {
     }
 
     @Test
-    public void registerUserWithSameEmailTest() {
+    public void logInWithInvalidPasswordTest() {
         WebElement error = new HomePage(driver)
                 .openMyAccountPage()
-                .registerUserInvalidData("test1@test.pl", "test@test.pl")
+                .logInInvalidData("test1@test.pl", "te@test.pl")
                 .getError();
 
 
-        Assert.assertTrue(error.getText().contains("An account is already registered with your email address"));
+        Assert.assertTrue(error.getText().contains("Incorrect username or password."), "Expected error doesn't match");
     }
 
 }
